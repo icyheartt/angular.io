@@ -5,29 +5,16 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-
 // Import new components
 import { SigninComponent } from './signin/signin.component';
 import { MainComponent } from './main/main.component';
 import { PopularComponent } from './popular/popular.component';
 import { SearchComponent } from './search/search.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './guards/auth.guards';
 
-// Update module declarations
+// Update module declarations   
 @NgModule({
   declarations: [
     AppComponent,
