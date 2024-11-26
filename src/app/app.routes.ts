@@ -18,7 +18,7 @@ export const routes: Routes = [
       { path: 'search', component: HomeSearchComponent }
     ]
   },
-  { path: 'signin', component: SignInComponent },
+  { path: 'signin', component: SignInComponent }, 
   { path: '**', component: SigninComponent }
 ];
 
