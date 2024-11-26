@@ -1,0 +1,6 @@
+<div id="app">
+  <router-outlet></router-outlet>
+</div>
+<h1>{{ appTitle }}</h1>
+<app-main></app-main>
+<app-wishlist (movieSelected)="onMovieSelected($event)"></app-wishlist>
