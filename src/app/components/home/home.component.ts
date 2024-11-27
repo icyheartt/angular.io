@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {HeaderComponent} from '../../layout/header/header.component';
+import { TMDBService } from '../../services/tmdb.service';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +10,38 @@ import {HeaderComponent} from '../../layout/header/header.component';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
-  // 컴포넌트 로직
+export class HomeComponent implements OnInit{
+  movies: any[] = [];
+  genres: any = {};
+
+  constructor(private tmdbService: TMDBService) {}
+
+  ngOnInit(): void {
+    this.loadMovies();
+    this.loadGenres();
+  }
+
+  loadMovies() {
+    this.tmdbService.getPopularMovies().subscribe((data) => {
+      this.movies = data.results;
+    });
+  }
+
+  loadGenres() {
+    this.tmdbService.getGenres().subscribe((data) => {
+      data.genres.forEach((genre: any) => {
+        this.genres[genre.id] = genre.name;
+      });
+    });
+
+  } 
+
+getImageUrl(path: string): string {
+  return `https://image.tmdb.org/t/p/w500${path}`;
+  
+  }
+
+getGenres(genreIds: number[]): string {
+  return genreIds.map((id) => this.genres[id]).join(', ');
+  }
 }

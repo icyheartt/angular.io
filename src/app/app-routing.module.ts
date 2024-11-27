@@ -7,10 +7,12 @@ import { MainComponent } from './main/main.component';
 import { PopularComponent } from './popular/popular.component';
 import { SearchComponent } from './search/search.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
+import { AuthGuard } from './guards/auth.guards';
 
 const routes: Routes = [
   { path: 'signin', component: SigninComponent },
-  { path: '', component: MainComponent },
+  { path: '', component: MainComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: 'signin' },
   { path: 'popular', component: PopularComponent },
   { path: 'search', component: SearchComponent },
   { path: 'wishlist', component: WishlistComponent },

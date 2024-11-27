@@ -2,11 +2,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TMDBService {
+  getGenres(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/genre/movie/list?api_key=${this.apiKey}&language=ko-KR`);
+  }
   private apiKey: string = 'YOUR_TMDB_API_KEY';
   private baseUrl: string = 'https://api.themoviedb.org/3';
 

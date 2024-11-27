@@ -1,6 +1,16 @@
-<div id="app">
-  <app-header></app-header>
-  <div id="container">
-    <router-outlet></router-outlet>
+<div class="home-container">
+  <h1>영화 추천</h1>
+
+  <div class="movie-list">
+    <div class="movie-card" *ngFor="let movie of movies">
+      <img [src]="getImageUrl(movie.poster_path)" alt="영화 포스터" />
+      <div class="movie-info">
+        <h3>{{ movie.title }}</h3>
+        <p>{{ movie.overview }}</p>
+        <p>평점: {{ movie.vote_average }}/10</p>
+        <p>개봉일: {{ movie.release_date }}</p>
+        <p>장르: {{ getGenres(movie.genre_ids) }}</p>
+      </div>
+    </div>
   </div>
 </div>
