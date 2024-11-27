@@ -12,6 +12,7 @@ export class MainComponent implements OnInit {
   movies: any[] = [];
   loading: boolean = true;
   error: string = '';
+  currentPage = 1;
 
   constructor(private tmdbService: TMDBService) { }
 
@@ -20,7 +21,7 @@ export class MainComponent implements OnInit {
   }
 
   fetchPopularMovies(): void {
-    this.tmdbService.getPopularMovies().subscribe({
+    this.tmdbService.getPopularMovies(this.currentPage).subscribe({
       next: (response) => {
         this.movies = response.results;
         this.loading = false;

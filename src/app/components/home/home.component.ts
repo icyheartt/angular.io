@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 export class HomeComponent implements OnInit{
   movies: any[] = [];
   genres: any = {};
+  currentPage = 1;
 
   constructor(private tmdbService: TMDBService) {}
 
@@ -23,7 +24,7 @@ export class HomeComponent implements OnInit{
   }
 
   loadMovies() {
-    this.tmdbService.getPopularMovies().subscribe((data) => {
+    this.tmdbService.getPopularMovies(this.currentPage).subscribe((data) => {
       this.movies = data.results;
     });
   }
