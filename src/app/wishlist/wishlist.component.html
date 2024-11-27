@@ -1,4 +1,36 @@
-<div class="wishlist">
-    <h2>Your Wishlist</h2>
-    <button (click)="selectMovie('Example Movie')">Add Example Movie</button>
+<div class="wishlist-container">
+  <div class="view-toggle">
+    <button (click)="toggleView()">Switch to {{ isTableView ? 'Infinite Scroll' : 'Table View' }}</button>
   </div>
+
+  <!-- Table View -->
+  <div *ngIf="isTableView" class="table-view">
+    <table>
+      <thead>
+        <tr>
+          <th>Poster</th>
+          <th>Title</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let movie of movies">
+          <td><img [src]="movie.poster_path" alt="Movie Poster" /></td>
+          <td>{{ movie.title }}</td>
+          <td>
+            <button (click)="removeFromWishlist(movie.id)">Remove</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Infinite Scroll View -->
+  <div *ngIf="!isTableView" class="scroll-view">
+    <div class="movie-card" *ngFor="let movie of movies">
+      <img [src]="movie.poster_path" alt="Movie Poster" />
+      <h3>{{ movie.title }}</h3>
+      <button (click)="removeFromWishlist(movie.id)">Remove</button>
+    </div>
+  </div>
+</div>
