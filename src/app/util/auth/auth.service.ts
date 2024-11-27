@@ -5,6 +5,12 @@ import { Observable, of, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+  login(email: string, password: string) {
+    throw new Error('Method not implemented.');
+  }
+  register(registerEmail: string, registerPassword: string) {
+    throw new Error('Method not implemented.');
+  }
   tryLogin(email: string, password: string, saveToken = true): Observable<any> {
     return new Observable(observer => {
       const users = JSON.parse(localStorage.getItem('users') || '[]');

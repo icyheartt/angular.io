@@ -29,6 +29,8 @@ export class SignInComponent implements OnInit, OnDestroy {
   isConfirmPasswordFocused = false;
 
   private cleanupTasks: (() => void)[] = []; // 언마운트 시 정리 작업 저장
+errorMessage: any;
+  AuthService: any;
 
   constructor(
     private authService: AuthService,
@@ -101,38 +103,33 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   handleLogin(): void {
-    console.log('Attempting login with:', this.email, this.password);
-
-    if (this.rememberMe) {
-      localStorage.setItem('rememberedEmail', this.email); // 이메일 저장
-    } else {
-      localStorage.removeItem('rememberedEmail'); // 이메일 삭제
-    }
-
-    this.authService.tryLogin(this.email, this.password).subscribe({
-      next: () => {
-        console.log('Login successful');
-        this.router.navigate(['/']); // 홈으로 이동
+    this.AuthService.login(this.email, this.password). subscribe({
+      next: (success: any) => {
+        if (success) {
+          console.log('Login successful');
+          this.router.navigate(['/']); // 홈으로 이동
+        } else {
+          this.errorMessage = 'Invalid email or password';
+        }
       },
-      error: (err) => {
-        alert('Login failed: ' + err.message); // 오류 메시지
+      error: (err: any) => {
+        console.error(err);
       }
     });
   }
 
   handleRegister(): void {
-    if (!this.isRegisterFormValid) {
-      alert('Registration form is invalid');
-      return;
-    }
-
-    this.authService.tryRegister(this.registerEmail, this.registerPassword).subscribe({
-      next: () => {
-        console.log('Registration successful');
-        this.toggleCard(); // 로그인 화면으로 전환
+    this.AuthService.register(this.registerEmail, this.registerPassword).subscribe ({
+      next: (success: any) => {
+        if (success) {
+          console.log('Registration successful');
+          this.toggleCard(); // 로그인 화면으로 전환
+        } else {
+          this.errorMessage = 'Email already exists';
+        }
       },
-      error: (err) => {
-        alert('Registration failed: ' + err.message);
+      error: (err: any) => {
+        console.error(err);
       }
     });
   }
