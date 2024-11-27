@@ -1,61 +1,88 @@
-
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-signin',
-  standalone: true,
+  selector: 'app-sign-in',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.css'],
-  imports: [CommonModule, FormsModule]
+  standalone: true,
+  imports: [FormsModule, CommonModule]
 })
-export class SigninComponent {
-  email: string = '';
-  password: string = '';
-  confirmPassword: string = '';
-  isLoginMode: boolean = true;
-  errorMessage: string = '';
+export class SignInComponent {
+  isLoginVisible = true; // 상태: 로그인 or 회원가입
+  email = '';
+  password = '';
+  registerEmail = '';
+  registerPassword = '';
+  confirmPassword = '';
+  rememberMe = false;
+  acceptTerms = false;
+  errorMessage = '';
 
-  toggleMode() {
-    this.isLoginMode = !this.isLoginMode;
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
-  onSubmit() {
-    if (this.isLoginMode) {
-      this.login();
-    } else {
-      this.signup();
-    }
-  }
-
-  login() {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = users.find((u: any) => u.email === this.email && u.password === this.password);
-    if (user) {
-      localStorage.setItem('loggedInUser', JSON.stringify(user));
-      alert('Login successful!');
-      this.errorMessage = '';
-    } else {
-      this.errorMessage = 'Invalid email or password.';
-    }
-  }
-
-  signup() {
-    if (this.password !== this.confirmPassword) {
-      this.errorMessage = 'Passwords do not match!';
-      return;
-    }
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const userExists = users.some((u: any) => u.email === this.email);
-    if (userExists) {
-      this.errorMessage = 'User already exists!';
-      return;
-    }
-    users.push({ email: this.email, password: this.password });
-    localStorage.setItem('users', JSON.stringify(users));
-    alert('Signup successful! Please log in.');
+  toggleCard() {
+    this.isLoginVisible = !this.isLoginVisible;
     this.errorMessage = '';
-    this.toggleMode();
+  }
+
+  handleLogin(): void {
+    console.log('Attempting login with:', this.email, this.password);
+    this.authService.login(this.email, this.password).subscribe({
+      next: (success: boolean) => {
+        console.log('Login result:', success); // 성공 여부 로그
+        if (success) {
+          console.log('Navigating to home');
+          this.router.navigate(['/']).catch((err) => {
+            console.error('Navigation error:', err); // 네비게이션 에러 출력
+          });
+        } else {
+          this.errorMessage = 'Invalid email or password';
+          console.warn(this.errorMessage);
+        }
+      },
+      error: (err) => {
+        console.error('Error during login:', err);
+        this.errorMessage = 'An error occurred during login.';
+      },
+    });
+  }
+
+  handleRegister() {
+    if (
+      !this.registerEmail ||
+      !this.registerPassword ||
+      !this.confirmPassword
+    ) {
+      this.errorMessage = 'All fields are required.';
+      return;
+    }
+
+    if (this.registerPassword !== this.confirmPassword) {
+      this.errorMessage = 'Passwords do not match.';
+      return;
+    }
+
+    if (!this.acceptTerms) {
+      this.errorMessage = 'You must accept the terms and conditions.';
+      return;
+    }
+
+    this.authService.register(this.registerEmail, this.registerPassword).subscribe({
+      next: (success: boolean) => {
+        if (success) {
+          this.toggleCard();
+          this.errorMessage = '';
+        } else {
+          this.errorMessage = 'Email already exists.';
+        }
+      },
+      error: () => {
+        this.errorMessage = 'An error occurred during registration.';
+      },
+    });
   }
 }

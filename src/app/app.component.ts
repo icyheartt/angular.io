@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SignInComponent } from './components/sign-in/sign-in.component';
+import { SignInComponent } from './signin/signin.component';
 
 @Component({
   selector: 'app-root',

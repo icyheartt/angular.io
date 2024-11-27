@@ -15,28 +15,28 @@ export class AuthService {
   }
 
   // 회원가입
-  register(email: string, password: string): Promise<boolean> {
+  register(email: string, password: string): Observable<boolean> {
     const users = this.getUsers();
     if (users[email]) {
-      return Promise.resolve(false); // 이미 존재하는 계정
+      return of(false); // 이미 존재하는 계정
     }
     users[email] = password;
     this.saveUsers(users);
-    return Promise.resolve(true); // 성공
+    return of(true); // 성공
   }
   
   
 
   // 로그인
-  login(email: string, password: string): Promise<boolean> {
+  login(email: string, password: string): Observable<boolean> {
     console.log('AuthService.login called with:', email, password); // 디버깅용 로그
     const users = this.getUsers();
     const storedPassword = users[email];
     if (storedPassword && storedPassword === password) {
       localStorage.setItem(this.loggedInKey, email);
-      return Promise.resolve(true); // 로그인 성공
+      return of(true); // 로그인 성공
     }
-    return Promise.resolve(false); // 로그인 실패
+    return of(false); // 로그인 실패
   }
   
   

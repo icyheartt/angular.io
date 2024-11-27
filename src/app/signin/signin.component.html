@@ -1,23 +1,93 @@
+<div class="form-container">
+  <h2 *ngIf="isLoginVisible">Login</h2>
+  <h2 *ngIf="!isLoginVisible">Sign up</h2>
 
-<div class="signin-container">
-  <h2 *ngIf="isLoginMode">Login</h2>
-  <h2 *ngIf="!isLoginMode">Signup</h2>
-
-  <form (ngSubmit)="onSubmit()">
+  <form *ngIf="isLoginVisible" (ngSubmit)="handleLogin()">
     <div>
       <label for="email">Email:</label>
-      <input id="email" type="email" [(ngModel)]="email" name="email" required />
+      <input
+        id="email"
+        type="email"
+        [(ngModel)]="email"
+        name="email"
+        placeholder="Enter your email"
+        required
+      />
     </div>
     <div>
       <label for="password">Password:</label>
-      <input id="password" type="password" [(ngModel)]="password" name="password" required />
+      <input
+        id="password"
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+        placeholder="Enter your password"
+        required
+      />
     </div>
-    <div *ngIf="!isLoginMode">
-      <label for="confirmPassword">Confirm Password:</label>
-      <input id="confirmPassword" type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required />
+    <div>
+      <label>
+        <input type="checkbox" [(ngModel)]="rememberMe" /> Remember Me
+      </label>
     </div>
-    <button type="submit">{{ isLoginMode ? 'Login' : 'Signup' }}</button>
+    <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+    <button type="submit" class="primary-button">Sign In</button>
+    <p>
+      Don't have an account?
+      <a (click)="toggleCard()">Register</a>
+    </p>
   </form>
-  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
-  <button (click)="toggleMode()">{{ isLoginMode ? 'Switch to Signup' : 'Switch to Login' }}</button>
+
+  <form *ngIf="!isLoginVisible" (ngSubmit)="handleRegister()">
+    <div>
+      <label for="registerEmail">Email:</label>
+      <input
+        id="registerEmail"
+        type="email"
+        [(ngModel)]="registerEmail"
+        name="registerEmail"
+        placeholder="Enter your email"
+        required
+      />
+    </div>
+    <div>
+      <label for="registerPassword">Password:</label>
+      <input
+        id="registerPassword"
+        type="password"
+        [(ngModel)]="registerPassword"
+        name="registerPassword"
+        placeholder="Enter your password"
+        required
+      />
+    </div>
+    <div>
+      <label for="confirmPassword">Confirm Password:</label>
+      <input
+        id="confirmPassword"
+        type="password"
+        [(ngModel)]="confirmPassword"
+        name="confirmPassword"
+        placeholder="Confirm your password"
+        required
+      />
+    </div>
+    <div>
+      <label>
+        <input
+          type="checkbox"
+          [(ngModel)]="acceptTerms"
+          name="acceptTerms"
+          required
+        />
+        I have read and accept the terms and conditions
+      </label>
+    </div>
+    <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+    <button type="submit" class="primary-button">Register</button>
+    <p>
+      Already have an account?
+      <a (click)="toggleCard()">Sign In</a>
+    </p>
+  </form>
 </div>

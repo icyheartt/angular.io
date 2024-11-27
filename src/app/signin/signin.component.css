@@ -1,41 +1,117 @@
-
-.signin-container {
-  max-width: 400px;
+/* 공통 스타일 */
+.form-container {
+  width: 350px;
   margin: 50px auto;
   padding: 20px;
-  border: 1px solid #ccc;
+  background-color: #222;
+  color: white;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  transition: all 0.5s ease-in-out; /* 전환 효과 */
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  animation: fadeIn 0.8s ease-in-out; /* 텍스트 페이드 효과 */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.5s ease-in-out; /* 폼 슬라이드 효과 */
+}
+
+form div {
+  margin-bottom: 15px;
+  position: relative; /* 아이콘 추가용 */
 }
 
 label {
-  display: block;
-  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
 }
 
 button {
-  width: 100%;
   padding: 10px;
-  background-color: #007bff;
-  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(90deg, #007bff, #0056b3);
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background: linear-gradient(90deg, #0056b3, #003f7f);
+  transform: translateY(-3px);
 }
 
-.error {
+.error-message {
   color: red;
-  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+  margin-top: -10px;
+  animation: shake 0.3s ease-in-out;
+}
+
+/* 체크박스와 텍스트 */
+input[type="checkbox"] {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* 애니메이션 정의 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25%,
+  75% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
 }

@@ -1,7 +1,7 @@
 
 import { NgModule } from '@angular/core';
 import { provideRouter, RouterModule, Routes } from '@angular/router';
-import { SigninComponent } from './signin/signin.component';
+import { SignInComponent } from './signin/signin.component';
 import { MainComponent } from './main/main.component';
 import { PopularComponent } from './popular/popular.component';
 import { SearchComponent } from './search/search.component';
@@ -9,7 +9,7 @@ import { WishlistComponent } from './wishlist/wishlist.component';
 import { AuthGuard } from './guards/auth.guards';
 
 export const routes: Routes = [
-  { path: 'signin', component: SigninComponent },
+  { path: 'signin', component: SignInComponent },
   { path: '', component: MainComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'signin' },
   { path: 'popular', component: PopularComponent },
