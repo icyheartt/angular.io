@@ -31,17 +31,18 @@ export class SignInComponent {
 
   handleLogin(): void {
     console.log('Attempting login with:', this.email, this.password);
+  
     this.authService.login(this.email, this.password).subscribe({
       next: (success: boolean) => {
-        console.log('Login result:', success); // 성공 여부 로그
+        console.log('Login result:', success);
         if (success) {
           console.log('Navigating to home');
           this.router.navigate(['/']).catch((err) => {
-            console.error('Navigation error:', err); // 네비게이션 에러 출력
+            console.error('Navigation error:', err);
           });
         } else {
           this.errorMessage = 'Invalid email or password';
-          console.warn(this.errorMessage);
+          console.warn(this.errorMessage);  
         }
       },
       error: (err) => {
@@ -50,6 +51,7 @@ export class SignInComponent {
       },
     });
   }
+  
 
   handleRegister() {
     if (

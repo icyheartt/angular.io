@@ -11,14 +11,14 @@ import { SignInComponent } from './signin/signin.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: HomeComponent },
+      { path: '', component: HomeMainComponent },
       { path: 'popular', component: HomePopularComponent },
       { path: 'wishlist', component: HomeWishlistComponent },
-      { path: 'search', component: HomeSearchComponent }
+      { path: 'search', component: HomeSearchComponent }  
     ]
   },
   { path: 'signin', component: SignInComponent }, 
-  { path: '**', component: SignInComponent }
+  { path: '**', redirectTo: 'signin' }
 ];
 
 @NgModule({

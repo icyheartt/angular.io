@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import {HeaderComponent} from '../../layout/header/header.component';
 import { TMDBService } from '../../services/tmdb.service';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit{
-  movies: any[] = [];
+  movies: any[] = []; 
   genres: any = {};
   currentPage = 1;
 

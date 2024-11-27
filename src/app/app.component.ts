@@ -13,8 +13,9 @@ import { SignInComponent } from './signin/signin.component';
 })
 export class AppComponent {
   appTitle = "Popular Movies App";
-
+  
   onMovieSelected(movie: string) {
     console.log(`Movie selected: ${movie}`);
   }
+
 }
