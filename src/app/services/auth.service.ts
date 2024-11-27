@@ -16,14 +16,21 @@ export class AuthService {
 
   // 회원가입
   register(email: string, password: string): Observable<boolean> {
+    console.log('AuthService.register called with:', email, password); // 메서드 호출 로그
     const users = this.getUsers();
+    console.log('Users in storage before registration:', users); // 기존 사용자 데이터 출력
+  
     if (users[email]) {
-      return of(false); // 이메일이 이미 존재하면 실패
+      console.warn('Registration failed: Email already exists:', email); // 실패 로그
+      return of(false);
     }
+  
     users[email] = password;
     this.saveUsers(users);
-    return of(true); // 성공
+    console.log('Registration successful for user:', email); // 성공 로그
+    return of(true);
   }
+  
 
   // 로그인
   login(email: string, password: string): Observable<boolean> {

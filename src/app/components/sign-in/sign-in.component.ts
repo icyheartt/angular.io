@@ -122,18 +122,22 @@ errorMessage: any;
   }
 
   handleRegister(): void {
-    this.AuthService.register(this.registerEmail, this.registerPassword).subscribe ({
+    console.log('Attempting registration with:', this.registerEmail, this.registerPassword); // 폼 데이터 출력
+    this.AuthService.register(this.registerEmail, this.registerPassword).subscribe({
       next: (success: any) => {
+        console.log('Registration result from AuthService:', success); // AuthService 결과 확인
         if (success) {
-          console.log('Registration successful');
+          console.log('Registration successful, switching to login form.'); // 성공 로그
           this.toggleCard(); // 로그인 화면으로 전환
         } else {
+          console.warn('Registration failed: Email already exists.'); // 실패 로그
           this.errorMessage = 'Email already exists';
         }
       },
       error: (err: any) => {
-        console.error(err);
+        console.error('Error during registration:', err); // AuthService 호출 중 오류
       }
     });
   }
+  
 }
