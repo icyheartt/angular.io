@@ -16,7 +16,7 @@ export class TMDBService {
 
   constructor(private http: HttpClient) { }
 
-  getPopularMovies(): Observable<any> {
+  getPopularMovies(page: number): Observable<any> {
     const url = `${this.baseUrl}/movie/popular?api_key=${this.apiKey}&language=en-US&page=1`;
     return this.http.get(url);
   }

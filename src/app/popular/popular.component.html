@@ -1,1 +1,45 @@
-<h1>Popular Works!</h1>
+<div class="popular-container">
+    <div class="view-toggle">
+      <button (click)="toggleView()">Switch to {{ isTableView ? 'Infinite Scroll' : 'Table View' }}</button>
+    </div>
+  
+    <!-- Table View -->
+    <div *ngIf="isTableView" class="table-view">
+      <table>
+        <thead>
+          <tr>
+            <th>Poster</th>
+            <th>Title</th>
+            <th>Overview</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let movie of movies">
+            <td><img [src]="getImageUrl(movie.poster_path)" alt="Movie Poster" /></td>
+            <td>{{ movie.title }}</td>
+            <td>{{ movie.overview }}</td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <div class="pagination">
+        <button (click)="changePage(-1)" [disabled]="currentPage === 1">Previous</button>
+        <span>Page {{ currentPage }}</span>
+        <button (click)="changePage(1)">Next</button>
+      </div>
+    </div>
+  
+    <!-- Infinite Scroll View -->
+    <div *ngIf="!isTableView" class="scroll-view">
+      <div class="movie-card" *ngFor="let movie of movies">
+        <img [src]="getImageUrl(movie.poster_path)" alt="Movie Poster" />
+        <h3>{{ movie.title }}</h3>
+        <p>{{ movie.overview }}</p>
+      </div>
+  
+      <div class="loading" *ngIf="isLoading">Loading...</div>
+    </div>
+  
+    <button *ngIf="showScrollToTop" class="scroll-to-top" (click)="scrollToTop()">Top</button>
+  </div>
+  
