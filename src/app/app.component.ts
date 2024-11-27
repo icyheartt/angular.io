@@ -12,7 +12,7 @@ import { SignInComponent } from './signin/signin.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = "Popular Movies App";
+  appTitle = "Popular Movies App";
 
   onMovieSelected(movie: string) {
     console.log(`Movie selected: ${movie}`);

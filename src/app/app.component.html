@@ -1,6 +1,5 @@
 <div id="app">
+  <h1>{{ appTitle }}</h1>
+  <!-- 라우터 아웃렛 -->
   <router-outlet></router-outlet>
 </div>
-<h1>{{ appTitle }}</h1>
-<app-main></app-main>
-<app-wishlist (movieSelected)="onMovieSelected($event)"></app-wishlist>

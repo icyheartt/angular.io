@@ -11,7 +11,7 @@ import { SignInComponent } from './signin/signin.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: HomeMainComponent },
+      { path: '', component: HomeComponent },
       { path: 'popular', component: HomePopularComponent },
       { path: 'wishlist', component: HomeWishlistComponent },
       { path: 'search', component: HomeSearchComponent }
