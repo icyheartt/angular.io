@@ -21,9 +21,19 @@ export class TMDBService {
     return this.http.get(url);
   }
 
-  searchMovies(query: string): Observable<any> {
-    const url = `${this.baseUrl}/search/movie?api_key=${this.apiKey}&language=en-US&query=${query}&page=1`;
-    return this.http.get(url);
+  searchMovies(filters: any, page: number): Observable<any> {
+    const params: any = {
+      api_key: this.apiKey,
+      language: 'en-US',
+      page
+    };
+  
+    if (filters.genre) params.with_genres = filters.genre;
+    if (filters.rating) params['vote_average.gte'] = filters.rating;
+    if (filters.year) params.primary_release_year = filters.year;
+    if (filters.sort) params.sort_by = filters.sort;
+  
+    return this.http.get(`${this.baseUrl}/discover/movie`, { params });
   }
 
   getMovieDetails(movieId: number): Observable<any> {

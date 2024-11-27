@@ -1,0 +1,50 @@
+.search-container {
+    padding: 20px;
+  }
+  
+  .filters {
+    margin-bottom: 20px;
+  }
+  
+  .filters label {
+    display: block;
+    margin: 10px 0;
+  }
+  
+  .view-toggle button {
+    margin-right: 10px;
+  }
+  
+  .table-view table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table-view th, .table-view td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  .scroll-view {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .movie-card {
+    width: 200px;
+    text-align: center;
+  }
+  
+  .movie-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .loading {
+    text-align: center;
+    margin-top: 20px;
+  }
+  

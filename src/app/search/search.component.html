@@ -1,1 +1,73 @@
-<h1>Search Works!</h1>
+<div class="search-container">
+    <div class="filters">
+      <h3>Filters</h3>
+      <label>
+        Genre:
+        <select [(ngModel)]="filters.genre" (change)="applyFilters()">
+          <option [value]="null">All</option>
+          <option *ngFor="let genre of genres" [value]="genre.id">{{ genre.name }}</option>
+        </select>
+      </label>
+  
+      <label>
+        Rating:
+        <input type="number" [(ngModel)]="filters.rating" (change)="applyFilters()" placeholder="Min Rating (0-10)" />
+      </label>
+  
+      <label>
+        Year:
+        <input type="number" [(ngModel)]="filters.year" (change)="applyFilters()" placeholder="Release Year" />
+      </label>
+  
+      <label>
+        Sort:
+        <select [(ngModel)]="filters.sort" (change)="applyFilters()">
+          <option value="popularity.desc">Most Popular</option>
+          <option value="vote_average.desc">Highest Rated</option>
+          <option value="release_date.desc">Newest</option>
+        </select>
+      </label>
+  
+      <button (click)="resetFilters()">Reset Filters</button>
+    </div>
+  
+    <div class="view-toggle">
+      <button (click)="isTableView = true">Table View</button>
+      <button (click)="isTableView = false">Infinite Scroll</button>
+    </div>
+  
+    <!-- Table View -->
+    <div *ngIf="isTableView" class="table-view">
+      <table>
+        <thead>
+          <tr>
+            <th>Poster</th>
+            <th>Title</th>
+            <th>Rating</th>
+            <th>Release Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let movie of movies">
+            <td><img [src]="getImageUrl(movie.poster_path)" alt="Poster" /></td>
+            <td>{{ movie.title }}</td>
+            <td>{{ movie.vote_average }}</td>
+            <td>{{ movie.release_date }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Infinite Scroll -->
+    <div *ngIf="!isTableView" class="scroll-view" (window:scroll)="onScroll()">
+      <div class="movie-card" *ngFor="let movie of movies">
+        <img [src]="getImageUrl(movie.poster_path)" alt="Poster" />
+        <h3>{{ movie.title }}</h3>
+        <p>{{ movie.vote_average }} / 10</p>
+        <p>{{ movie.release_date }}</p>
+      </div>
+  
+      <div *ngIf="isLoading" class="loading">Loading...</div>
+    </div>
+  </div>
+  
