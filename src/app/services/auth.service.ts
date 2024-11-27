@@ -27,14 +27,21 @@ export class AuthService {
 
   // 로그인
   login(email: string, password: string): Observable<boolean> {
+    console.log('AuthService.login called with:', email, password); // 메서드 호출 로그
     const users = this.getUsers();
+    console.log('Users in storage:', users); // 로컬 스토리지 사용자 데이터 출력
     const storedPassword = users[email];
+    console.log('Stored password for user:', storedPassword); // 저장된 비밀번호 확인
+  
     if (storedPassword && storedPassword === password) {
+      console.log('Login successful for user:', email); // 성공 로그
       localStorage.setItem(this.loggedInKey, email);
-      return of(true); // 로그인 성공
+      return of(true);
     }
-    return of(false); // 로그인 실패
+    console.warn('Login failed for user:', email); // 실패 로그
+    return of(false);
   }
+  
 
   // 로그아웃
   logout(): void {
@@ -52,10 +59,14 @@ export class AuthService {
   }
 
   private getUsers(): { [key: string]: string } {
-    return JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+    const users = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+    console.log('getUsers called, returning:', users); // 로컬 스토리지 데이터 출력
+    return users;
   }
-
+  
   private saveUsers(users: { [key: string]: string }): void {
+    console.log('saveUsers called with:', users); // 저장 데이터 출력
     localStorage.setItem(this.storageKey, JSON.stringify(users));
   }
+  
 }

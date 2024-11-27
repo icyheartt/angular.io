@@ -103,17 +103,20 @@ errorMessage: any;
   }
 
   handleLogin(): void {
-    this.AuthService.login(this.email, this.password). subscribe({
+    console.log('Attempting login with:', this.email, this.password); // 폼 데이터 출력
+    this.AuthService.login(this.email, this.password).subscribe({
       next: (success: any) => {
+        console.log('Login result from AuthService:', success); // AuthService 결과 확인
         if (success) {
-          console.log('Login successful');
+          console.log('Login successful, navigating to home.'); // 성공 로그
           this.router.navigate(['/']); // 홈으로 이동
         } else {
+          console.warn('Login failed: Invalid email or password.'); // 실패 로그
           this.errorMessage = 'Invalid email or password';
         }
       },
       error: (err: any) => {
-        console.error(err);
+        console.error('Error during login:', err); // AuthService 호출 중 오류
       }
     });
   }
