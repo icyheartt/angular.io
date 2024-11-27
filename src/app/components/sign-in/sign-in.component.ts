@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../util/auth/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -102,42 +102,37 @@ errorMessage: any;
     }
   }
 
-  handleLogin(): void {
-    console.log('Attempting login with:', this.email, this.password); // 폼 데이터 출력
-    this.AuthService.login(this.email, this.password).subscribe({
-      next: (success: any) => {
-        console.log('Login result from AuthService:', success); // AuthService 결과 확인
-        if (success) {
-          console.log('Login successful, navigating to home.'); // 성공 로그
-          this.router.navigate(['/']); // 홈으로 이동
-        } else {
-          console.warn('Login failed: Invalid email or password.'); // 실패 로그
-          this.errorMessage = 'Invalid email or password';
-        }
-      },
-      error: (err: any) => {
-        console.error('Error during login:', err); // AuthService 호출 중 오류
+  async handleLogin(): Promise<void> {
+    console.log('Attempting login:', this.email, this.password); // 디버깅용 로그
+    try {
+      const success = await this.authService.login(this.email, this.password);
+      console.log('Login success:', success); // 결과 확인 로그
+  
+      if (success) {
+        console.log('Redirecting to home...');
+        this.router.navigate(['/']); // 홈으로 이동
+      } else {
+        this.errorMessage = 'Invalid email or password';
+        console.warn('Login failed: Invalid credentials');
       }
-    });
+    } catch (error) {
+      console.error('Error during login:', error);
+    }
   }
 
-  handleRegister(): void {
-    console.log('Attempting registration with:', this.registerEmail, this.registerPassword); // 폼 데이터 출력
-    this.AuthService.register(this.registerEmail, this.registerPassword).subscribe({
-      next: (success: any) => {
-        console.log('Registration result from AuthService:', success); // AuthService 결과 확인
-        if (success) {
-          console.log('Registration successful, switching to login form.'); // 성공 로그
-          this.toggleCard(); // 로그인 화면으로 전환
-        } else {
-          console.warn('Registration failed: Email already exists.'); // 실패 로그
-          this.errorMessage = 'Email already exists';
-        }
-      },
-      error: (err: any) => {
-        console.error('Error during registration:', err); // AuthService 호출 중 오류
+  async handleRegister(): Promise<void> {
+    try {
+      const success = await this.authService.register(this.registerEmail, this.registerPassword);
+      if (success) {
+        console.log('Registration successful');
+        this.toggleCard(); // 로그인 화면으로 전환
+      } else {
+        this.errorMessage = 'Email already exists';
       }
-    });
+    } catch (err) {
+      console.error(err);
+    }
   }
+  
   
 }

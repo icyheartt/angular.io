@@ -15,39 +15,30 @@ export class AuthService {
   }
 
   // 회원가입
-  register(email: string, password: string): Observable<boolean> {
-    console.log('AuthService.register called with:', email, password); // 메서드 호출 로그
+  register(email: string, password: string): Promise<boolean> {
     const users = this.getUsers();
-    console.log('Users in storage before registration:', users); // 기존 사용자 데이터 출력
-  
     if (users[email]) {
-      console.warn('Registration failed: Email already exists:', email); // 실패 로그
-      return of(false);
+      return Promise.resolve(false); // 이미 존재하는 계정
     }
-  
     users[email] = password;
     this.saveUsers(users);
-    console.log('Registration successful for user:', email); // 성공 로그
-    return of(true);
+    return Promise.resolve(true); // 성공
   }
+  
   
 
   // 로그인
-  login(email: string, password: string): Observable<boolean> {
-    console.log('AuthService.login called with:', email, password); // 메서드 호출 로그
+  login(email: string, password: string): Promise<boolean> {
+    console.log('AuthService.login called with:', email, password); // 디버깅용 로그
     const users = this.getUsers();
-    console.log('Users in storage:', users); // 로컬 스토리지 사용자 데이터 출력
     const storedPassword = users[email];
-    console.log('Stored password for user:', storedPassword); // 저장된 비밀번호 확인
-  
     if (storedPassword && storedPassword === password) {
-      console.log('Login successful for user:', email); // 성공 로그
       localStorage.setItem(this.loggedInKey, email);
-      return of(true);
+      return Promise.resolve(true); // 로그인 성공
     }
-    console.warn('Login failed for user:', email); // 실패 로그
-    return of(false);
+    return Promise.resolve(false); // 로그인 실패
   }
+  
   
 
   // 로그아웃
@@ -66,9 +57,8 @@ export class AuthService {
   }
 
   private getUsers(): { [key: string]: string } {
-    const users = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
-    console.log('getUsers called, returning:', users); // 로컬 스토리지 데이터 출력
-    return users;
+    const users = localStorage.getItem(this.storageKey);
+    return users ? JSON.parse(users) : {};
   }
   
   private saveUsers(users: { [key: string]: string }): void {
