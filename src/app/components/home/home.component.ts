@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {HeaderComponent} from '../../layout/header/header.component';
 import { TMDBService } from '../../services/tmdb.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterModule, HeaderComponent],
+  imports: [RouterModule, HeaderComponent, CommonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
